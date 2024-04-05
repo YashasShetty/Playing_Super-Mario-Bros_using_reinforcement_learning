@@ -13,6 +13,7 @@ import torch.nn.functional as F
 import numpy as np
 import shutil
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 
 def get_args():
     parser = argparse.ArgumentParser(
