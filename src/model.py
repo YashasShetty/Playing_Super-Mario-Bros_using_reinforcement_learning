@@ -9,7 +9,9 @@ class PPO(nn.Module):
         self.conv2 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
         self.conv3 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
         self.conv4 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
-        self.linear = nn.Linear(32 * 6 * 6, 512)
+        self.conv5 = nn.Conv2d(32, 32, 3, stride=2, padding=1) # Added new layer
+        self.linear = nn.Linear(32 * 3 * 3, 512)
+        #self.linear = nn.Linear(32 * 6 * 6, 512) # Uncomment this line to get the original repo working
         self.critic_linear = nn.Linear(512, 1)
         self.actor_linear = nn.Linear(512, num_actions)
         self._initialize_weights()
@@ -27,5 +29,6 @@ class PPO(nn.Module):
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv4(x))
+        x = F.relu(self.conv5(x)) # Added new layer
         x = self.linear(x.view(x.size(0), -1))
         return self.actor_linear(x), self.critic_linear(x)
